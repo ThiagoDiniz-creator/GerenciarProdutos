@@ -31,7 +31,7 @@ public class Produto {
     }
 
     public boolean removeQuantidade(int quantidade) {
-        if (this.quantidade - quantidade > 0) {
+        if (this.quantidade - quantidade > 0 && quantidade > 0) {
             this.quantidade -= quantidade;
             return true;
         } else {

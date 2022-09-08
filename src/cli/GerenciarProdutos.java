@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class GerenciarProdutos {
     private final ArrayList<Produto> produtos = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         GerenciarProdutos gp = new GerenciarProdutos();
         Scanner sc = new Scanner(System.in);
 
@@ -22,6 +22,7 @@ public class GerenciarProdutos {
                 case 1:
                     gp.addProduto(cadastroInput(sc));
                     break;
+
                 // Entrada de produtos.
                 case 2:
                     gp.printProdutosComCodigo();
@@ -33,8 +34,11 @@ public class GerenciarProdutos {
                         prod.addQuantidade(qtd);
                         System.out.printf("%d novos itens (%s) adicionados. Estoque atual: %d.\n", qtd, prod.getNome(),
                                 prod.getQuantidade());
+                    } else {
+                        System.out.println("Código de produto inválido!");
                     }
                     break;
+
                 // Saída de produtos.
                 case 3:
                     gp.printProdutosComCodigo();
@@ -49,22 +53,32 @@ public class GerenciarProdutos {
                             System.out.printf("%d itens (%s) foram retirados. Estoque atual: %d.\n", qtd1, prod1.getNome(),
                                     prod1.getQuantidade());
                         else
-                            System.out.printf("O estoque atual (%d) não permite a retirada de %d itens.",
+                            System.out.printf("O estoque atual (%d) não permite a retirada de %d itens.\n",
                                     prod1.getQuantidade(), qtd1);
+                    } else {
+                        System.out.println("Código do produto inválido!");
                     }
 
                     break;
+
                 // Estoque atual
                 case 4:
                     getEstoqueAtual(gp);
                     break;
+
+                // Finalizando o sistema.
                 case 5:
                     System.out.println("FINALIZANDO SISTEMA!");
                     break;
+
+                // Mensagem caso a opção não seja válida.
                 default:
-                    System.out.println(opt + " não é um número válido");
+                    System.out.println(opt + " não é uma opção válida!");
                     break;
             }
+
+            // Tempo para o usuário ver a mensagem.
+            Thread.sleep(600);
         }
     }
 
@@ -74,7 +88,7 @@ public class GerenciarProdutos {
     }
 
     private static Produto getProdutoByCodigo(GerenciarProdutos gp, Scanner sc) {
-        System.out.println("Digite o código do produto: ");
+        System.out.print("Digite o código do produto: ");
         int input = Integer.parseInt(sc.nextLine());
 
         if (gp.produtos.size() > input)
@@ -85,17 +99,19 @@ public class GerenciarProdutos {
 
     private static void getEstoqueAtual(GerenciarProdutos gp) {
         double total = 0;
+        System.out.println("ESTOQUE");
+
         for (Produto prod : gp.produtos) {
             System.out.printf("%s -- Preço: %.2f -- Quantidade: %d -- Valor estimado:" +
                     " %.2f\n", prod.getNome(), prod.getPreco(), prod.getQuantidade(), prod.getTotal());
             total += prod.getTotal();
         }
-        System.out.println("Valor total estimado no estoque: " + total);
+        System.out.printf("Valor total estimado no estoque: %.2f\n", total);
     }
 
     private static Produto cadastroInput(Scanner sc) {
         Produto produto = new Produto();
-        System.out.println("Digite o nome do produto: ");
+        System.out.print("Digite o nome do produto: ");
         produto.setNome(sc.nextLine());
         System.out.printf("Digite o preço do produto (%s): ", produto.getNome());
         produto.setPreco(Double.parseDouble(sc.nextLine()));
@@ -110,11 +126,12 @@ public class GerenciarProdutos {
         System.out.println("3 => Saída de produtos;");
         System.out.println("4 => Estoque atual;");
         System.out.println("5 => Sair.");
-        System.out.println("Digite a operação desejada: ");
+        System.out.print("Digite a operação desejada: ");
     }
 
     public void printProdutosComCodigo() {
         int i = 0;
+        System.out.println("PRODUTOS");
         for (Produto prod : this.produtos) {
             System.out.printf("Código: %d -- Produto: %s -- Quantidade: %d \n", i, prod.getNome(),
                     prod.getQuantidade());
