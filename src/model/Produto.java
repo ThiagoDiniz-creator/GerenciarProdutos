@@ -1,9 +1,9 @@
 package model;
 
 public class Produto {
-    private String nome;
-    private double preco;
-    private int quantidade;
+    private String nome = "PRODUTO_PADRÃO";
+    private double preco = 0;
+    private int quantidade = 0;
 
     public String getNome() {
         return nome;
@@ -26,16 +26,16 @@ public class Produto {
     }
 
     public void addQuantidade(int quantidade) {
-        this.quantidade = this.quantidade + quantidade;
-        System.out.printf("%d novos itens (%s) adicionados. Estoque atual: %d.\n", quantidade, this.nome, this.quantidade);
+        if (quantidade >= 0)
+            this.quantidade = this.quantidade + quantidade;
     }
 
-    public void removeQuantidade(int quantidade) {
+    public boolean removeQuantidade(int quantidade) {
         if (this.quantidade - quantidade > 0) {
             this.quantidade -= quantidade;
-            System.out.printf("%d itens (%s) foram retirados. Estoque atual: %d.\n", quantidade, this.nome, this.quantidade);
+            return true;
         } else {
-            System.out.printf("O estoque atual (%d) não permite a retirada de %d itens.", this.quantidade, quantidade);
+            return false;
         }
     }
 
