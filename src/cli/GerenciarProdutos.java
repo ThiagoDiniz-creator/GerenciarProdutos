@@ -14,7 +14,7 @@ public class GerenciarProdutos {
 
         int opt = 0;
         while (opt != 5) {
-            exibirMenu();
+            GerenciarProdutos.exibirMenu();
 
             opt = Integer.parseInt(sc.nextLine());
             switch (opt) {
@@ -26,7 +26,7 @@ public class GerenciarProdutos {
                 // Entrada de produtos.
                 case 2:
                     gp.printProdutosComCodigo();
-                    Produto prod = getProdutoByCodigo(gp, sc);
+                    Produto prod = getProdutoByCodigo(gp.produtos, sc);
 
                     if (!prod.getNome().equals("PRODUTO_PADRÃO")) {
                         int qtd = getQtd(sc, prod);
@@ -42,7 +42,7 @@ public class GerenciarProdutos {
                 // Saída de produtos.
                 case 3:
                     gp.printProdutosComCodigo();
-                    Produto prod1 = getProdutoByCodigo(gp, sc);
+                    Produto prod1 = getProdutoByCodigo(gp.produtos, sc);
 
                     if (!prod1.getNome().equals("PRODUTO_PADRÃO")) {
                         int qtd1 = getQtd(sc, prod1);
@@ -63,12 +63,12 @@ public class GerenciarProdutos {
 
                 // Estoque atual
                 case 4:
-                    getEstoqueAtual(gp);
+                    getEstoqueAtual(gp.produtos);
                     break;
 
                 // Finalizando o sistema.
                 case 5:
-                    System.out.println("FINALIZANDO SISTEMA!");
+                    System.out.println("FINALIZANDO O SISTEMA!");
                     break;
 
                 // Mensagem caso a opção não seja válida.
@@ -87,33 +87,33 @@ public class GerenciarProdutos {
         return Integer.parseInt(sc.nextLine());
     }
 
-    private static Produto getProdutoByCodigo(GerenciarProdutos gp, Scanner sc) {
+    private static Produto getProdutoByCodigo(ArrayList<Produto> produtos, Scanner sc) {
         System.out.print("Digite o código do produto: ");
         int input = Integer.parseInt(sc.nextLine());
 
-        if (gp.produtos.size() > input)
-            return gp.produtos.get(input);
+        if (produtos.size() > input)
+            return produtos.get(input);
         else
             return new Produto();
     }
 
-    private static void getEstoqueAtual(GerenciarProdutos gp) {
+    private static void getEstoqueAtual(ArrayList<Produto> produtos) {
         double total = 0;
         System.out.println("ESTOQUE");
 
-        for (Produto prod : gp.produtos) {
-            System.out.printf("%s -- Preço: %.2f -- Quantidade: %d -- Valor estimado:" +
+        for (Produto prod : produtos) {
+            System.out.printf("%s -- Preço: R$%.2f -- Quantidade: %d -- Valor estimado:" +
                     " %.2f\n", prod.getNome(), prod.getPreco(), prod.getQuantidade(), prod.getTotal());
             total += prod.getTotal();
         }
-        System.out.printf("Valor total estimado no estoque: %.2f\n", total);
+        System.out.printf("Valor total estimado no estoque: R$%.2f\n", total);
     }
 
     private static Produto cadastroInput(Scanner sc) {
         Produto produto = new Produto();
         System.out.print("Digite o nome do produto: ");
         produto.setNome(sc.nextLine());
-        System.out.printf("Digite o preço do produto (%s): ", produto.getNome());
+        System.out.printf("Digite o preço do produto (%s): R$", produto.getNome());
         produto.setPreco(Double.parseDouble(sc.nextLine()));
 
         return produto;
