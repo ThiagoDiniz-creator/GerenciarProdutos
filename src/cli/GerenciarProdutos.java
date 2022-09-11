@@ -103,7 +103,7 @@ public class GerenciarProdutos {
 
         for (Produto prod : produtos) {
             System.out.printf("%s -- Preço: R$%.2f -- Quantidade: %d -- Valor estimado:" +
-                    " %.2f\n", prod.getNome(), prod.getPreco(), prod.getQuantidade(), prod.getTotal());
+                    " R$%.2f\n", prod.getNome(), prod.getPreco(), prod.getQuantidade(), prod.getTotal());
             total += prod.getTotal();
         }
         System.out.printf("Valor total estimado no estoque: R$%.2f\n", total);
